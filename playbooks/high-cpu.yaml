@@ -1,0 +1,12 @@
+name: High CPU Usage
+trigger: cpu_percent > 90
+steps:
+  - description: Check top processes by CPU
+    command: "ps aux --sort=-%cpu | head -20"
+  - description: Check for runaway containers
+    command: "docker stats --no-stream 2>/dev/null || echo 'Docker not available'"
+  - description: Check recent deployments
+    prompt: "Were there any deployments in the last hour?"
+  - description: Check system load average
+    command: "uptime"
+escalation: "Page the on-call SRE if unresolved after 15 minutes"

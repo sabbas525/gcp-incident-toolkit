@@ -1,0 +1,12 @@
+name: Service Down
+trigger: health_check_failed
+steps:
+  - description: Check if service process is running
+    command: "ps aux | grep -i service || echo 'No matching process'"
+  - description: Check service logs
+    command: "journalctl -u service --since '10 minutes ago' 2>/dev/null | tail -30 || echo 'journalctl not available'"
+  - description: Check port availability
+    command: "ss -tuln 2>/dev/null | grep -E ':(80|443|8080)' || netstat -an | grep LISTEN"
+  - description: Attempt service restart
+    prompt: "Should we attempt to restart the service?"
+escalation: "Page the on-call SRE immediately if service cannot be restored"

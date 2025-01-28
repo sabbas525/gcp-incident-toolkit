@@ -1,0 +1,12 @@
+name: Disk Full
+trigger: disk_percent > 90
+steps:
+  - description: Check disk usage by directory
+    command: "du -sh /* 2>/dev/null | sort -rh | head -10"
+  - description: Find large files
+    command: "find / -type f -size +100M 2>/dev/null | head -20"
+  - description: Check for old log files
+    command: "find /var/log -name '*.log' -mtime +7 2>/dev/null | head -20"
+  - description: Check Docker disk usage
+    command: "docker system df 2>/dev/null || echo 'Docker not available'"
+escalation: "Alert infrastructure team if disk cannot be freed within 30 minutes"
