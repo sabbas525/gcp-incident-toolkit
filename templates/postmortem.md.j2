@@ -1,0 +1,59 @@
+# Postmortem: {{ title }}
+
+**Date:** {{ date }}
+
+## Summary
+
+{{ summary }}
+
+## Timeline
+
+| Time | Event |
+|------|-------|
+| TBD  | Issue detected |
+| TBD  | Investigation started |
+| TBD  | Root cause identified |
+| TBD  | Fix deployed |
+| TBD  | Issue resolved |
+
+## Root Cause
+
+{{ root_cause }}
+
+{% if metrics %}
+## System Metrics at Time of Incident
+
+| Metric | Value |
+|--------|-------|
+{% for key, value in metrics.items() %}
+| {{ key }} | {{ value }} |
+{% endfor %}
+{% endif %}
+
+{% if findings %}
+## Log Analysis Findings
+
+| Pattern | Severity | Count | Sample |
+|---------|----------|-------|--------|
+{% for f in findings %}
+| {{ f.pattern }} | {{ f.severity }} | {{ f.count }} | `{{ f.sample[:80] }}` |
+{% endfor %}
+{% endif %}
+
+## Impact
+
+- **Duration:** TBD
+- **Users affected:** TBD
+- **Services affected:** TBD
+
+## Action Items
+
+| Action | Owner | Due Date | Status |
+|--------|-------|----------|--------|
+| TBD    | TBD   | TBD      | Open   |
+
+## Lessons Learned
+
+- What went well: TBD
+- What went wrong: TBD
+- Where we got lucky: TBD
